@@ -74,3 +74,19 @@ test.each([
 ])('test get', (classCharacter, name, testProperty, testValue) => {
   expect((new classCharacter(name))[testProperty]).toBe(testValue);
 });
+
+test.each([
+  [Undead, ['Misha'], null, 'levelUp', 'level', 2],
+  [Undead, ['Oleg'], 15, 'damage', 'health', 88.75],
+  [Undead, ['Oleg'], 10000, 'damage', 'health', 0],
+])('test method', (classCharacter, paramsClass, paramsMethod, testMethod, testProperty, expected) => {
+  const character = new classCharacter(...paramsClass);
+  character[testMethod](paramsMethod);
+  expect(character[testProperty]).toBeCloseTo(expected);
+})
+
+test('testing leveling up a dead character', () => {
+  const character = new Swordsman('Oleg');
+  character.damage(10000);
+  expect(() => character.levelUp()).toThrow(new Error('Нельзя повысить левел умершего'));
+})

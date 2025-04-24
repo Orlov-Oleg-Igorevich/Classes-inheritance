@@ -1,13 +1,13 @@
 export default class Character {
-  constructor(name, type, health, level, attack, defence) {
+  constructor(name, type) {
     Object.defineProperty(this, "_name", {writable: true});
     Object.defineProperty(this, "_type", {writable: true});
-    this.name = name; // - имя
-    this.type = type; // - тип
-    this.health = health; // - уровень жизни
-    this.level = level; // - уровень персонажа
-    this.attack = attack; // - атака
-    this.defence = defence; // - защита
+    this.name = name;          // - имя
+    this.type = type;          // - тип
+    this.health = 100;         // - уровень жизни
+    this.level = 1;            // - уровень персонажа
+    this.attack = undefined;   // - атака
+    this.defence = undefined;  // - защита
   }
 
   get name() {
@@ -33,37 +33,64 @@ export default class Character {
       throw new Error("Не найден тип персонажа");
     }
   }
-}
 
-// let car = new Character('dddd', 'Daemon', 100, 100, 100, 100);
+  levelUp() {
+    if (this.health == 0) {
+      throw new Error('Нельзя повысить левел умершего');
+    }
+    this.level += 1;
+    this.attack *= 1.2;
+    this.defence *= 1.2;
+    this.health = 100;
+  }
+
+  damage(points) {
+    this.health -= points * (1 - this.defence / 100);
+    if (this.health < 0) {
+      this.health = 0;
+    }
+  }
+}
 
 export class Bowerman extends Character {
   constructor(name) {
-    super(name, 'Bowerman', 100, 1, 25, 25);
+    super(name, 'Bowerman');
+    this.attack = 25;  // - атака
+    this.defence = 25; // - защита
   }
 }
 export class Swordsman extends Character {
   constructor(name) {
-    super(name, 'Swordsman', 100, 1, 40, 10);
+    super(name, 'Swordsman');
+    this.attack = 40;  // - атака
+    this.defence = 10; // - защита
   }
 }
 export class Magician extends Character {
   constructor(name) {
-    super(name, 'Magician', 100, 1, 10, 40);
+    super(name, 'Magician');
+    this.attack = 10;  // - атака
+    this.defence = 40; // - защита
   }
 }
 export class Daemon extends Character {
   constructor(name) {
-    super(name, 'Daemon', 100, 1, 10, 40);
+    super(name, 'Daemon');
+    this.attack = 10;  // - атака
+    this.defence = 40; // - защита
   }
 }
 export class Undead extends Character {
   constructor(name) {
-    super(name, 'Undead', 100, 1, 25, 25);
+    super(name, 'Undead');
+    this.attack = 25;  // - атака
+    this.defence = 25; // - защита
   }
 }
 export class Zombie extends Character {
   constructor(name) {
-    super(name, 'Zombie', 100, 1, 40, 10);
+    super(name, 'Zombie');
+    this.attack = 40;  // - атака
+    this.defence = 10; // - защита
   }
 }
